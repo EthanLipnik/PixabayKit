@@ -12,7 +12,7 @@ public struct Video: Codable, Identifiable, Hashable {
     public var pageURL: URL?
     public var type: VideoType
     public var tags: [String]
-    public var duration: Double
+    public var duration: Int
     public var pictureID: String
     public var items: [Item: Item.VideoItem]
     public var views: Int
@@ -69,7 +69,7 @@ public struct Video: Codable, Identifiable, Hashable {
         pageURL = try? container.decode(URL.self, forKey: .pageURL)
         type = try container.decode(VideoType.self, forKey: .type)
         tags = (try container.decode(String.self, forKey: .tags)).components(separatedBy: ", ").map({ String($0) })
-        duration = try container.decode(Double.self, forKey: .duration)
+        duration = try container.decode(Int.self, forKey: .duration)
         pictureID = try container.decode(String.self, forKey: .pictureID)
         views = try container.decode(Int.self, forKey: .views)
         downloads = try container.decode(Int.self, forKey: .downloads)
