@@ -1,5 +1,4 @@
-import XCTest
 @testable import PixabayKit
+import XCTest
 
-final class PixabayKitTests: XCTestCase {
-}
+final class PixabayKitTests: XCTestCase {}

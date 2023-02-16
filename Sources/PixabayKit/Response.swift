@@ -1,6 +1,6 @@
 //
 //  Response.swift
-//  
+//
 //
 //  Created by Ethan Lipnik on 8/5/22.
 //

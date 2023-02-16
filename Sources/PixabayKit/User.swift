@@ -1,6 +1,6 @@
 //
 //  User.swift
-//  
+//
 //
 //  Created by Ethan Lipnik on 8/4/22.
 //

@@ -1,6 +1,6 @@
 //
 //  Video.swift
-//  
+//
 //
 //  Created by Ethan Lipnik on 8/4/22.
 //
@@ -19,19 +19,19 @@ public struct Video: Codable, Identifiable, Hashable {
     public var downloads: Int
     public var comments: Int
     public var user: User
-    
+
     public enum VideoType: String, Codable {
         case all
         case film
         case animation
     }
-    
+
     public enum Item: Codable, Hashable {
         case large
         case medium
         case small
         case tiny
-        
+
         public struct VideoItem: Codable, Hashable {
             public var url: URL
             public var width: Int
@@ -39,7 +39,7 @@ public struct Video: Codable, Identifiable, Hashable {
             public var size: Int
         }
     }
-    
+
     private enum CodingKeys: String, CodingKey {
         case id
         case pageURL
@@ -51,32 +51,36 @@ public struct Video: Codable, Identifiable, Hashable {
         case views
         case downloads
         case comments
-        
+
         case username = "user"
         case userID = "user_id"
         case userProfilePic = "userImageURL"
-        
+
         case large
         case medium
         case small
         case tiny
     }
-    
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         id = try container.decode(Int.self, forKey: .id)
         pageURL = try? container.decode(URL.self, forKey: .pageURL)
         type = try container.decode(VideoType.self, forKey: .type)
-        tags = (try container.decode(String.self, forKey: .tags)).components(separatedBy: ", ").map({ String($0) })
+        tags = (try container.decode(String.self, forKey: .tags)).components(separatedBy: ", ")
+            .map { String($0) }
         duration = try container.decode(Int.self, forKey: .duration)
         pictureID = try container.decode(String.self, forKey: .pictureID)
         views = try container.decode(Int.self, forKey: .views)
         downloads = try container.decode(Int.self, forKey: .downloads)
         comments = try container.decode(Int.self, forKey: .comments)
-        
+
         items = [:]
-        let videosContainer = try container.nestedContainer(keyedBy: CodingKeys.self, forKey: .items)
+        let videosContainer = try container.nestedContainer(
+            keyedBy: CodingKeys.self,
+            forKey: .items
+        )
         if let largeVideo = try? videosContainer.decode(Item.VideoItem.self, forKey: .large) {
             items[.large] = largeVideo
         }
@@ -89,13 +93,13 @@ public struct Video: Codable, Identifiable, Hashable {
         if let tinyVideo = try? videosContainer.decode(Item.VideoItem.self, forKey: .tiny) {
             items[.tiny] = tinyVideo
         }
-        
+
         let username = try container.decode(String.self, forKey: .username)
         let userID = try container.decode(Int.self, forKey: .userID)
         let userProfilePic = try? container.decode(URL.self, forKey: .userProfilePic)
         user = User(id: userID, name: username, profilePic: userProfilePic)
     }
-    
+
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
@@ -107,7 +111,7 @@ public struct Video: Codable, Identifiable, Hashable {
         try container.encode(views, forKey: .views)
         try container.encode(downloads, forKey: .downloads)
         try container.encode(comments, forKey: .comments)
-        
+
         try container.encode(user.id, forKey: .userID)
         try container.encode(user.name, forKey: .username)
         try container.encode(user.profilePic, forKey: .userProfilePic)

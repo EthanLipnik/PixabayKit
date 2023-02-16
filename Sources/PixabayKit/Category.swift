@@ -1,6 +1,6 @@
 //
 //  Category.swift
-//  
+//
 //
 //  Created by Ethan Lipnik on 8/6/22.
 //
